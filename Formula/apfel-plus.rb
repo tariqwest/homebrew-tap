@@ -1,37 +1,28 @@
 class ApfelPlus < Formula
   desc "On-device Apple FoundationModels CLI and OpenAI-compatible server"
   homepage "https://github.com/tariqwest/apfel-plus"
-  url "https://github.com/tariqwest/apfel-plus.git",
-      tag:      "v1.6.0",
-      revision: "c514d60a78cebd57594216537fb3aa06f0afe52c"
+  url "https://github.com/tariqwest/apfel-plus/releases/download/v1.6.0/apfel-plus-1.6.0-arm64-macos.tar.gz"
+  sha256 "4e8ee7f2c4e251a39528c24b6095caed1ce7364a7b229f56f730f60327004a74"
   license "MIT"
-  head "https://github.com/tariqwest/apfel-plus.git", branch: "main"
 
+  depends_on arch: :arm64
   on_macos do
     depends_on macos: :tahoe
   end
-  depends_on xcode: ["26.0", :build]
 
   def install
-    # Build release binary
-    system "swift", "build",
-           "-c", "release",
-           "--disable-sandbox",
-           "--scratch-path", buildpath/".build"
-
-    bin.install buildpath/".build/release/apfel-plus"
-
-    # Install man page (substitute version placeholder)
-    inreplace "man/apfel-plus.1.in", "%%VERSION%%", version.to_s
-    man1.install "man/apfel-plus.1.in" => "apfel-plus.1"
+    bin.install "apfel-plus"
+    man1.install "apfel-plus.1"
 
     # Install demo scripts as apfel-plus-<name> companion commands
-    pkgshare.install "demo"
-    %w[cmd explain gitsum mac-narrator naming oneliner port wtd].each do |d|
-      target = pkgshare/"demo/#{d}"
-      next unless target.exist?
+    if File.directory?("demo")
+      pkgshare.install "demo"
+      %w[cmd explain gitsum mac-narrator naming oneliner port wtd].each do |d|
+        target = pkgshare/"demo/#{d}"
+        next unless target.exist?
 
-      bin.install_symlink target => "apfel-plus-#{d}"
+        bin.install_symlink target => "apfel-plus-#{d}"
+      end
     end
   end
 
