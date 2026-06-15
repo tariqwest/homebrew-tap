@@ -1,8 +1,8 @@
 class AfmJs < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/afm-js"
-  url "https://github.com/tariqwest/afm-js/releases/download/v0.0.2/afm-js-prebuilt-arm64-apple-darwin-0.0.2.tar.gz"
-  sha256 "86a35f2d13acc75b8c2b22e806c801fcfe6777836bdf05a09ec6ba2616789a0f"
+  url "https://github.com/tariqwest/afm-js/releases/download/v0.0.2/afm-js-prebuilt-arm64-apple-darwin.tar.gz"
+  sha256 "PLACEHOLDER_SHA256"
   license "MIT"
   version "0.0.2"
 
@@ -11,13 +11,15 @@ class AfmJs < Formula
   depends_on arch: :arm64
 
   resource "afm-fm-helper" do
-    url "https://github.com/tariqwest/afm-js/releases/download/v0.0.2/afm-fm-helper-arm64-apple-darwin-0.0.2.tar.gz"
-    sha256 "8b43671514f75be4efa387575bded3422b29ab3bfdfbab8dd2e202df6f21f897"
+    url "https://github.com/tariqwest/afm-js/releases/download/v0.0.2/afm-fm-helper-arm64-apple-darwin.tar.gz"
+    sha256 "PLACEHOLDER_HELPER_SHA256"
   end
 
   def install
+    # Install prebuilt afm-js package
     libexec.install Dir["dist"], "bin"
 
+    # Create wrapper script that uses Homebrew's node
     (bin/"afm-js").write <<~EOS
       #!/bin/bash
       export AFM_JS_HELPER_PATH="#{opt_prefix}/libexec/afm-fm-helper"
@@ -25,6 +27,7 @@ class AfmJs < Formula
     EOS
     chmod 0755, bin/"afm-js"
 
+    # Install helper binary from resource
     resource("afm-fm-helper").stage do
       libexec.install "afm-fm-helper"
     end
@@ -38,8 +41,33 @@ class AfmJs < Formula
         - Apple Silicon (M1+)
         - Apple Intelligence enabled in System Settings
 
-      The helper binary is installed at:
-        #{opt_prefix}/libexec/afm-fm-helper
+      To start the server manually:
+        afm-js serve --port 11434
+
+      To run as a background service (auto-starts at login):
+        brew services start afm-js
+
+      Manage the service:
+        brew services stop afm-js
+        brew services restart afm-js
+        brew services info afm-js
     EOS
+  end
+
+  service do
+    run [opt_bin/"afm-js", "serve", "--port", "11434"]
+    keep_alive true
+    log_path var/"log/afm-js.log"
+    error_log_path var/"log/afm-js-error.log"
+    environment_variables AFM_JS_HELPER_PATH: opt_prefix/"libexec/afm-fm-helper"
+    require_root false
+  end
+
+  test do
+    # Test that the binary runs
+    assert_match "afm-js", shell_output("#{bin}/afm-js --help")
+    
+    # Test health endpoint if server can start briefly
+    # Note: This may fail if Apple Intelligence is not available
   end
 end
