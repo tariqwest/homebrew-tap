@@ -7,8 +7,9 @@ class ApfelPlus < Formula
   license "MIT"
   head "https://github.com/tariqwest/apfel-plus.git", branch: "main"
 
-  depends_on :macos
-  depends_on macos: :tahoe
+  on_macos do
+    depends_on macos: :tahoe
+  end
   depends_on xcode: ["26.0", :build]
 
   def install
