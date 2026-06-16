@@ -1,10 +1,10 @@
 class AfmJs < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/afm-js"
-  url "https://github.com/tariqwest/afm-js/releases/download/v0.0.9/afm-js-prebuilt-arm64-apple-darwin-0.0.9.tar.gz"
-  sha256 "e04e68d36a37f825f02c0ac8f2993bcf20e0cbe5e6c15f79c10b3bdf515b9bba"
+  url "https://github.com/tariqwest/afm-js/releases/download/v0.0.10/afm-js-prebuilt-arm64-apple-darwin-0.0.10.tar.gz"
+  sha256 "3f0264e01c84d934dd9daa39b64d6cf4b55b8213a1507e0a960f6bcad4da7704"
   license "MIT"
-  version "0.0.9"
+  version "0.0.10"
 
   depends_on "node"
   on_macos do
@@ -12,8 +12,8 @@ class AfmJs < Formula
   end
 
   resource "afm-fm-helper" do
-    url "https://github.com/tariqwest/afm-js/releases/download/v0.0.9/afm-fm-helper-arm64-apple-darwin-0.0.9.tar.gz"
-    sha256 "8af2dc041373b95562f631e48042f9fd5f7881dab9a59f28fbe362d4b109fa92"
+    url "https://github.com/tariqwest/afm-js/releases/download/v0.0.10/afm-fm-helper-arm64-apple-darwin-0.0.10.tar.gz"
+    sha256 "2039d2b650ca7370d1ad18c905fe2dd6c79aab8e14c6459910a9fafd7a61cfed"
   end
 
   def install
@@ -23,6 +23,7 @@ class AfmJs < Formula
     # Create wrapper script that uses Homebrew's node
     (bin/"afm-js").write <<~EOS
       #!/bin/bash
+      export AFM_HELPER_PATH="#{opt_prefix}/libexec/afm-fm-helper"
       export AFM_JS_HELPER_PATH="#{opt_prefix}/libexec/afm-fm-helper"
       exec "#{Formula["node"].opt_bin}/node" "#{libexec}/bin/afm-js.js" "$@"
     EOS
@@ -40,7 +41,8 @@ class AfmJs < Formula
     keep_alive true
     log_path var/"log/afm-js.log"
     error_log_path var/"log/afm-js-error.log"
-    environment_variables AFM_JS_HELPER_PATH: opt_prefix/"libexec/afm-fm-helper",
+    environment_variables AFM_HELPER_PATH: opt_prefix/"libexec/afm-fm-helper",
+                          AFM_JS_HELPER_PATH: opt_prefix/"libexec/afm-fm-helper",
                           AFM_JS_PORT: "1337",
                           AFM_JS_TOKEN: "*************"
     require_root false
