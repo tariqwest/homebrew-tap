@@ -1,10 +1,10 @@
 class FmServer < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/fm-server"
-  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.6/fm-server-prebuilt-arm64-apple-darwin-0.1.6.tar.gz"
-  sha256 "3426009f6e17e8c7475da612875fdfbc63ed8bf9b3350672fcf2951a2caca78c"
+  url "https://github.com/tariqwest/fm-server/releases/download/v0.2.0/fm-server-prebuilt-arm64-apple-darwin-0.2.0.tar.gz"
+  sha256 "d584da67436c36430ead65a31e36b7e01aeb443c06e933ec9959d9c32ba81dcd"
   license "MIT"
-  version "0.1.6"
+  version "0.2.0"
 
   depends_on "node"
   on_macos do
@@ -28,6 +28,11 @@ class FmServer < Formula
       chmod 0444, dylib
     end
 
+    # Ensure node-pty spawn-helper is executable (needed for PCC backend)
+    Dir.glob("#{libexec}/node_modules/**/spawn-helper").each do |helper|
+      chmod 0755, helper
+    end
+
     (bin/"fm-server").write <<~EOS
       #!/bin/bash
       exec "#{Formula["node"].opt_bin}/node" "#{libexec}/bin/fm-server.js" "$@"
@@ -40,7 +45,7 @@ class FmServer < Formula
     keep_alive true
     log_path var/"log/fm-server.log"
     error_log_path var/"log/fm-server-error.log"
-    environment_variables FM_SERVER_PORT: "1337",
+    environment_variables FM_SERVER_PORT: "11434",
                           FM_SERVER_TOKEN: "fm-server"
     require_root false
   end
@@ -53,7 +58,9 @@ class FmServer < Formula
         - Apple Intelligence enabled in System Settings
 
       To start the server manually:
-        fm-server serve --port 1337
+        fm-server serve
+
+      Default port: 11434 (override with --port or FM_SERVER_PORT)
 
       To run as a background service (auto-starts at login):
         brew services start fm-server
