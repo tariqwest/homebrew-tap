@@ -1,21 +1,32 @@
 class FmServer < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/fm-server"
-  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.2/fm-server-prebuilt-arm64-apple-darwin-0.1.2.tar.gz"
-  sha256 "491b17b9215393726646d0b30c23907a254e0c9b271b887820bcf2aa157eb271"
+  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.3/fm-server-prebuilt-arm64-apple-darwin-0.1.3.tar.gz"
+  sha256 "95fca036e4f114d3e78d5ed10e8f18ea9b553ebdf486010f3ef787ad1634d886"
   license "MIT"
-  version "0.1.2"
+  version "0.1.3"
 
   depends_on "node"
   on_macos do
     depends_on arch: :arm64
   end
 
-  # Skip Homebrew's relocation of native dylibs (apple-fm-sdk ships prebuilt)
-  skip_clean :libexec
+  # apple-fm-sdk ships a prebuilt dylib with @rpath install name;
+  # prevent Homebrew from rewriting it (which fails due to header size)
+  preserve_rpath true
 
   def install
     libexec.install "dist", "bin", "node_modules"
+
+    # Clear dylib IDs on native addons so Homebrew skips relocation.
+    # These are dlopen'd by Node.js and don't need a dylib ID.
+    Dir.glob("#{libexec}/node_modules/**/*.dylib").each do |dylib|
+      next unless File.file?(dylib)
+      chmod 0644, dylib
+      system "install_name_tool", "-id", "", dylib
+      system "codesign", "--sign", "-", "--force", dylib
+      chmod 0444, dylib
+    end
 
     (bin/"fm-server").write <<~EOS
       #!/bin/bash
