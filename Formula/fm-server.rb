@@ -1,10 +1,10 @@
 class FmServer < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/fm-server"
-  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.4/fm-server-prebuilt-arm64-apple-darwin-0.1.4.tar.gz"
-  sha256 "48c87472e04b4fbd1caaf02b5b6ddbd6bd3ad242b0edae37d0ae3b0ef7b536fc"
+  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.5/fm-server-prebuilt-arm64-apple-darwin-0.1.5.tar.gz"
+  sha256 "ee780f7fec76d4418472a793089d327581798ed445ec7124e4234807f34bddab"
   license "MIT"
-  version "0.1.4"
+  version "0.1.5"
 
   depends_on "node"
   on_macos do
@@ -16,7 +16,7 @@ class FmServer < Formula
   preserve_rpath
 
   def install
-    libexec.install "dist", "bin", "node_modules"
+    libexec.install "dist", "bin", "node_modules", "package.json"
 
     # Clear dylib IDs on native addons so Homebrew skips relocation.
     # These are dlopen'd by Node.js and don't need a dylib ID.
