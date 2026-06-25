@@ -1,10 +1,10 @@
 class FmServer < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/fm-server"
-  url "https://github.com/tariqwest/fm-server/releases/download/v0.3.0/fm-server-prebuilt-arm64-apple-darwin-0.3.0.tar.gz"
-  sha256 "76a7abc20607d81780d9a10f9ea4661a3854d593e026661db957a01fba5ea1c4"
+  url "https://github.com/tariqwest/fm-server/releases/download/v0.3.1/fm-server-prebuilt-arm64-apple-darwin-0.3.1.tar.gz"
+  sha256 "a86052267ab765c3bef6aef4c0566babb0f2871a5e02c0abcd442e2efd176b87"
   license "MIT"
-  version "0.3.0"
+  version "0.3.1"
 
   depends_on "node"
   on_macos do
@@ -20,7 +20,7 @@ class FmServer < Formula
 
     # Clear dylib IDs on native addons so Homebrew skips relocation.
     # These are dlopen'd by Node.js and don't need a dylib ID.
-    Dir.glob("#{libexec}/node_modules/**/*.dylib").each do |dylib|
+    Dir.glob("#{libexec}/node_modules/**/*.dylib", File::FNM_DOTMATCH).each do |dylib|
       next unless File.file?(dylib)
       chmod 0644, dylib
       system "install_name_tool", "-id", "", dylib
@@ -29,7 +29,7 @@ class FmServer < Formula
     end
 
     # Ensure node-pty spawn-helper is executable (needed for PCC backend)
-    Dir.glob("#{libexec}/node_modules/**/spawn-helper").each do |helper|
+    Dir.glob("#{libexec}/node_modules/**/spawn-helper", File::FNM_DOTMATCH).each do |helper|
       chmod 0755, helper
     end
 
