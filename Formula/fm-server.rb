@@ -1,10 +1,10 @@
 class FmServer < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/fm-server"
-  url "https://github.com/tariqwest/fm-server/releases/download/v0.2.0/fm-server-prebuilt-arm64-apple-darwin-0.2.0.tar.gz"
-  sha256 "d584da67436c36430ead65a31e36b7e01aeb443c06e933ec9959d9c32ba81dcd"
+  url "https://github.com/tariqwest/fm-server/releases/download/v0.3.0/fm-server-prebuilt-arm64-apple-darwin-0.3.0.tar.gz"
+  sha256 "76a7abc20607d81780d9a10f9ea4661a3854d593e026661db957a01fba5ea1c4"
   license "MIT"
-  version "0.2.0"
+  version "0.3.0"
 
   depends_on "node"
   on_macos do
