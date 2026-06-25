@@ -1,15 +1,18 @@
 class FmServer < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/fm-server"
-  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.1/fm-server-prebuilt-arm64-apple-darwin-0.1.1.tar.gz"
-  sha256 "375bf0de9267d3f81a7c3fb601d1196c2397288e1aa6d773179b9b59df9bd8d0"
+  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.2/fm-server-prebuilt-arm64-apple-darwin-0.1.2.tar.gz"
+  sha256 "491b17b9215393726646d0b30c23907a254e0c9b271b887820bcf2aa157eb271"
   license "MIT"
-  version "0.1.1"
+  version "0.1.2"
 
   depends_on "node"
   on_macos do
     depends_on arch: :arm64
   end
+
+  # Skip Homebrew's relocation of native dylibs (apple-fm-sdk ships prebuilt)
+  skip_clean :libexec
 
   def install
     libexec.install "dist", "bin", "node_modules"
