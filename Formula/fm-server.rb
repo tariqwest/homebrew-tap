@@ -1,10 +1,10 @@
 class FmServer < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/fm-server"
-  url "https://github.com/tariqwest/fm-server/releases/download/v0.3.1/fm-server-prebuilt-arm64-apple-darwin-0.3.1.tar.gz"
-  sha256 "a86052267ab765c3bef6aef4c0566babb0f2871a5e02c0abcd442e2efd176b87"
+  url "https://github.com/tariqwest/fm-server/releases/download/v0.3.2/fm-server-prebuilt-arm64-apple-darwin-0.3.2.tar.gz"
+  sha256 "ef88ed3d20aa44948f27bb68b87125c79b3a48dc7aa1be9b40c2dd17b1f7c02e"
   license "MIT"
-  version "0.3.1"
+  version "0.3.2"
 
   depends_on "node"
   on_macos do
@@ -20,10 +20,14 @@ class FmServer < Formula
 
     # Clear dylib IDs on native addons so Homebrew skips relocation.
     # These are dlopen'd by Node.js and don't need a dylib ID.
+    # We set an @rpath ID so preserve_rpath prevents Homebrew's
+    # post-install relocation from rewriting it (which fails on
+    # libFoundationModels.dylib due to insufficient header space).
     Dir.glob("#{libexec}/node_modules/**/*.dylib", File::FNM_DOTMATCH).each do |dylib|
       next unless File.file?(dylib)
+      basename = File.basename(dylib)
       chmod 0644, dylib
-      system "install_name_tool", "-id", "", dylib
+      system "install_name_tool", "-id", "@rpath/#{basename}", dylib
       system "codesign", "--sign", "-", "--force", dylib
       chmod 0444, dylib
     end
