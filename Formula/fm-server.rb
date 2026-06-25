@@ -1,10 +1,10 @@
 class FmServer < Formula
   desc "Apple Foundation Models for Node.js — OpenAI-compatible HTTP server + CLI"
   homepage "https://github.com/tariqwest/fm-server"
-  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.3/fm-server-prebuilt-arm64-apple-darwin-0.1.3.tar.gz"
-  sha256 "95fca036e4f114d3e78d5ed10e8f18ea9b553ebdf486010f3ef787ad1634d886"
+  url "https://github.com/tariqwest/fm-server/releases/download/v0.1.4/fm-server-prebuilt-arm64-apple-darwin-0.1.4.tar.gz"
+  sha256 "48c87472e04b4fbd1caaf02b5b6ddbd6bd3ad242b0edae37d0ae3b0ef7b536fc"
   license "MIT"
-  version "0.1.3"
+  version "0.1.4"
 
   depends_on "node"
   on_macos do
@@ -13,7 +13,7 @@ class FmServer < Formula
 
   # apple-fm-sdk ships a prebuilt dylib with @rpath install name;
   # prevent Homebrew from rewriting it (which fails due to header size)
-  preserve_rpath true
+  preserve_rpath
 
   def install
     libexec.install "dist", "bin", "node_modules"
