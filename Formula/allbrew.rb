@@ -1,8 +1,8 @@
 class Allbrew < Formula
   desc "Generate Homebrew formulas and casks from arbitrary URLs"
   homepage "https://github.com/tariqwest/allbrew"
-  url "https://github.com/tariqwest/allbrew/releases/download/v0.0.3/allbrew-v0.0.3.tar.gz"
-  sha256 "8554e3f945921f4b38ed8ea989abb36843ca61b8111f5a7f14f01d11318b0be0"
+  url "https://github.com/tariqwest/allbrew/releases/download/v0.0.4/allbrew-v0.0.4.tar.gz"
+  sha256 "bd67768669583e8cfa875e8273c656fb6aed40625bd521e3f7b43485a61ec72b"
   license "MIT"
 
   livecheck do
@@ -16,7 +16,7 @@ class Allbrew < Formula
     libexec.install Dir["*"]
 
     (libexec/"allbrew").install libexec/"scripts"/"update-managed.sh"
-    (libexec/"allbrew").chmod 0755, "update-managed.sh"
+    chmod 0755, libexec/"allbrew"/"update-managed.sh"
 
     (etc/"allbrew-brew-wrap").write <<~EOS
       # allbrew brew update hook
