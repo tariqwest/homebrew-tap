@@ -1,8 +1,8 @@
 class Allbrew < Formula
   desc "Generate Homebrew formulas and casks from arbitrary URLs"
   homepage "https://github.com/tariqwest/allbrew"
-  url "https://github.com/tariqwest/allbrew/releases/download/v0.0.5/allbrew-v0.0.5.tar.gz"
-  sha256 "1f627a66b6798820db08186a852fedd1e26dcb4e3b34274f865fc61ab307531e"
+  url "https://github.com/tariqwest/allbrew/releases/download/v0.0.6/allbrew-v0.0.6.tar.gz"
+  sha256 "e68a3633019bad2af194bcb1fae41666476c6867625e609a8ac1a3fe696dd018"
   license "MIT"
 
   livecheck do
@@ -18,7 +18,7 @@ class Allbrew < Formula
     (libexec/"allbrew").install libexec/"scripts"/"update-managed.sh"
     chmod 0755, libexec/"allbrew"/"update-managed.sh"
 
-    (etc/"allbrew-brew-wrap").write <<~EOS
+    (buildpath/"allbrew-brew-wrap").write <<~EOS
       # allbrew brew update hook
       # Source from your shell profile:
       #   source "$(brew --prefix)/etc/allbrew-brew-wrap"
@@ -36,6 +36,9 @@ class Allbrew < Formula
       # Opt in by aliasing brew:
       # alias brew=allbrew_brew
     EOS
+    # etc.install refuses to overwrite existing conf files on upgrade.
+    rm_f etc/"allbrew-brew-wrap"
+    etc.install "allbrew-brew-wrap"
 
     (bin/"allbrew").write <<~EOS
       #!/bin/bash
