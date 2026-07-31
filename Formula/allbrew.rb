@@ -1,8 +1,8 @@
 class Allbrew < Formula
   desc "Generate Homebrew formulas and casks from arbitrary URLs"
   homepage "https://github.com/tariqwest/allbrew"
-  url "https://github.com/tariqwest/allbrew/releases/download/v0.0.10/allbrew-v0.0.10.tar.gz"
-  sha256 "98de14f91ce7ff2f2a08cf90e286a91c86cfbe24810569b208365943f2e46765"
+  url "https://github.com/tariqwest/allbrew/releases/download/v0.0.11/allbrew-v0.0.11.tar.gz"
+  sha256 "36d2a51e59eec4038b157b95d1c2230f2bfe79526c0426ccce6e4221ad3db4fa"
   license "MIT"
 
   livecheck do
