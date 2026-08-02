@@ -34,8 +34,8 @@ end
 class OzAcp < Formula
   desc "ACP stdio adapter for Warp Oz CLI"
   homepage "https://github.com/tariqwest/oz-acp#readme"
-  url "https://github.com/tariqwest/oz-acp/archive/refs/tags/v0.1.3.tar.gz"
-  sha256 "fc80d21af70e98b6bd1e70e35b200b6408a5ff7588cf1020f3eb24bde41ad2a4"
+  url "https://github.com/tariqwest/oz-acp/archive/refs/tags/v0.1.4.tar.gz"
+  sha256 "9bb716fbb48331f627cc634441ff9dbc452abafb4a3152347c8dc7b6bccfb0ae"
   license "MIT"
   head "https://github.com/tariqwest/oz-acp.git", branch: "main"
 
