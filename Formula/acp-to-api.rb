@@ -4,8 +4,8 @@
 class AcpToApi < Formula
   desc "OpenAI-compatible REST gateway for local ACP (Agent Client Protocol) agents"
   homepage "https://github.com/tariqwest/acp-to-api#readme"
-  url "https://github.com/tariqwest/acp-to-api/archive/refs/tags/v0.1.1.tar.gz"
-  sha256 "df11fcb526c1bf002e8d5eaf4f3c37824e39502c783a510c840ddee9b61244ca"
+  url "https://github.com/tariqwest/acp-to-api/archive/refs/tags/v0.1.2.tar.gz"
+  sha256 "977e80a94cf38a8d03329befcc5fd75029dfeb99adab3496b4784106649d2a9c"
   license "MIT"
   head "https://github.com/tariqwest/acp-to-api.git", branch: "main"
 
