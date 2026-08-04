@@ -4,8 +4,8 @@
 class AcpToApi < Formula
   desc "OpenAI-compatible REST gateway for local ACP (Agent Client Protocol) agents"
   homepage "https://github.com/tariqwest/acp-to-api#readme"
-  url "https://github.com/tariqwest/acp-to-api/archive/refs/tags/v0.1.2.tar.gz"
-  sha256 "977e80a94cf38a8d03329befcc5fd75029dfeb99adab3496b4784106649d2a9c"
+  url "https://github.com/tariqwest/acp-to-api/archive/refs/tags/v0.1.3.tar.gz"
+  sha256 "f2bd3e1d3e2b90d422d02c3b93b1011e26f29e41718a9b65f1cf3c0bb66565c0"
   license "MIT"
   head "https://github.com/tariqwest/acp-to-api.git", branch: "main"
 
@@ -15,6 +15,16 @@ class AcpToApi < Formula
     system "npm", "install", *std_npm_args
   end
 
+  service do
+    run [opt_bin/"acp-to-api"]
+    keep_alive true
+    require_root false
+    log_path var/"log/acp-to-api.log"
+    error_log_path var/"log/acp-to-api.error.log"
+    working_dir HOMEBREW_PREFIX
+    environment_variables ACP_TO_API_HOST: "127.0.0.1", ACP_TO_API_PORT: "8787"
+  end
+
   def caveats
     <<~EOS
       acp-to-api is an OpenAI-compatible REST gateway for local ACP agents.
@@ -22,6 +32,12 @@ class AcpToApi < Formula
       Start the server:
 
         #{bin}/acp-to-api
+
+      Or run it as a managed service with Homebrew services:
+
+        brew services start acp-to-api
+        brew services stop acp-to-api
+        brew services restart acp-to-api
 
       Defaults to http://127.0.0.1:8787. Useful env vars:
 
