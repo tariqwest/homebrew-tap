@@ -12,6 +12,8 @@ class Allbrew < Formula
 
   depends_on "bun"
 
+  conflicts_with "allbrew-dogfood", because: "allbrew and allbrew-dogfood are mutually exclusive drop-in packages"
+
   def install
     libexec.install Dir["*"]
 
