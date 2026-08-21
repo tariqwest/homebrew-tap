@@ -17,6 +17,7 @@ class AllbrewDogfood < Formula
 
   def install
     libexec.install Dir["*"]
+    system "bun", "install", "--cwd", libexec
 
     (libexec/"allbrew").install libexec/"scripts"/"update-managed.sh"
     chmod 0755, libexec/"allbrew"/"update-managed.sh"
