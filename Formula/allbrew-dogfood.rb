@@ -1,9 +1,9 @@
 class AllbrewDogfood < Formula
   desc "Dogfood build of allbrew (drop-in allbrew command)"
   homepage "https://github.com/tariqwest/allbrew"
-  url "https://github.com/tariqwest/allbrew/archive/refs/tags/v0.0.38-dogfood.1.tar.gz"
-  sha256 "348cb4a91d30e99ca1e1e0e7d13d481952260fe33f2a6b7e4e216e9bfbd06616"
-  version "0.0.38-dogfood.1"
+  url "https://github.com/tariqwest/allbrew/archive/refs/tags/v0.0.38-dogfood.2.tar.gz"
+  sha256 "2bf85dd69765ed785b7b7c13f004f6073f6dc80553c8db99c2836833e88b2004"
+  version "0.0.38-dogfood.2"
   license "MIT"
 
   livecheck do
